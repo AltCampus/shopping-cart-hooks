@@ -15,7 +15,14 @@ class Cart extends React.Component {
   open = () => {
     this.setState({ isOpen: true });
   };
+
   render() {
+
+    let totalAmount = this.props.state.cart.reduce((prev, curr) => {
+      prev = prev + curr.price * curr.quantity;
+      return Number(prev.toFixed(2));
+    }, 0);
+
     const { isOpen } = this.state;
     if (!isOpen) {
       return <ClosedCart open={this.open} count={this.props.state.cart} />;
@@ -46,11 +53,11 @@ class Cart extends React.Component {
             </div>
             <h2>Cart</h2>
           </div>
-          <CartItem   />
+          <CartItem />
           <div className='cart-checkout'>
             <div>
               <p>SUBTOTAL</p>
-              <p>$ 199.00</p>
+              <p>$ {totalAmount}</p>
             </div>
             <button>CHECKOUT</button>
           </div>

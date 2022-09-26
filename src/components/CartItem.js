@@ -1,22 +1,19 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { useState } from "react";
 
 function CartItem(props) {
-  const [quantity, setQuantity] = useState([]);
-
-  function addQuantity(id){
-    console.log(id);
-    this.props.dispatch({
+  function addQuantity(id) {
+    props.dispatch({
       type:"addItemToCart",
       id
     })
   }
 
-  function removeQuantity(){
-    if(quantity > 1){
-      setQuantity(quantity-1);
-    }
+  function removeQuantity(id) {
+    props.dispatch({
+      type:"removeItemFromCart",
+      id
+    })
   }
   
   function removeItemFromCart(id) {
@@ -31,7 +28,7 @@ function CartItem(props) {
     <>
     {
       cart.map(product => (
-        <div className='cart-item'>
+        <div key={product.id} className='cart-item'>
           <img
             src={`/static/products/${product.sku}_2.jpg`}
             alt=''
@@ -42,14 +39,14 @@ function CartItem(props) {
               {product.title}
             </p>
             <p>{product.style}</p>
-            <p>print Quantity:</p>
+            <p>print Quantity: {product.quantity}</p>
           </div>
           <div className='cart-price'>
             <p className='cart-cross' onClick={() => removeItemFromCart(product.id)}>X</p>
-            <p className='price'>$ {product.price * quantity }</p>
+            <p className='price'>$ {product.price * product.quantity }</p>
             <div>
               <Increment addQuantity={addQuantity} id={product.id} />
-              <Decrement removeQuantity={removeQuantity} />
+              <Decrement removeQuantity={removeQuantity} id={product.id} />
             </div>
           </div>
         </div>
@@ -78,6 +75,7 @@ function Increment(props) {
     </svg>
   );
 }
+
 function Decrement(props) {
   return (
     <svg
@@ -86,7 +84,7 @@ function Decrement(props) {
       viewBox='0 0 24 24'
       stroke='currentColor'
       className='plus-icon'
-      onClick={props.removeQuantity}
+      onClick={() => props.removeQuantity(props.id)}
     >
       <path
         strokeLinecap='round'

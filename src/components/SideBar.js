@@ -7,18 +7,11 @@ function Sidebar(props) {
     }, []);
     let uniqueSizes = [...new Set(sizes)];
 
-    function handleSize(size){
-      props.dispatch({
-        type:"changeSize",
-        size
-      })
-    }
-
     return (
       <aside className="flex-20 sidebar">
         <div className="flex wrap">
           {uniqueSizes.map((size) => (
-            <span key={size} className="size" onClick={() => handleSize(size)}>{size}</span>
+            <span key={size} className="size">{size}</span>
           ))}
         </div>
       </aside>
