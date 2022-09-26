@@ -10,7 +10,21 @@ let inclualState = {
 
 
 function shoppingReducer( state=inclualState, actions){
+
     switch (actions.type) {
+        case "addSize":
+            let isSize = state.size.findIndex(ele => ele === actions.size);
+            console.log(isSize)
+            if(isSize >= 0){
+                state.size.filter(ele => {
+                    if(ele === actions.size){
+                        return state.size.splice(actions.size,1);
+                    }
+                })
+            } else {
+                state.size.push(actions.size);
+            }
+            return {...state}
         case "addItemToCart":
             let  isPresent = state.cart.findIndex(product => product.id === actions.id);
             let product = state.products.find(product => product.id === actions.id)

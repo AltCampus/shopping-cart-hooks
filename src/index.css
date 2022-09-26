@@ -173,6 +173,21 @@ body {
   padding: 4px;
   cursor: pointer;
 }
+
+.select-size {
+  margin: 8px;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  width: 38px;
+  height: 38px;
+  font-size: 14px;
+  padding: 4px;
+  cursor: pointer;
+}
+
 .active {
   background-color: #eabf00;
   color: #000;
@@ -426,6 +441,10 @@ p {
     width: 48px;
     height: 48px;
   }
+  .select {
+    background-color: black;
+    color: white;
+  }
   .product-item-img {
     width: 75%;
   }
@@ -433,3 +452,7 @@ p {
     text-align: center;
   }
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

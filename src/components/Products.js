@@ -15,11 +15,21 @@ class Products extends React.Component {
 
   handleOrderProducts = (order, products) => {
     let sortedProducts = [...products];
+    let size = this.props.state.size;
     if (order === "highest") {
       sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
     }
     if (order === "lowest") {
       sortedProducts = sortedProducts.sort((a, b) => a.price - b.price);
+    }
+    if(size.length > 0){
+      sortedProducts = sortedProducts.filter((p) => {
+        for (const sizes of size) {
+          if (p.availableSizes.includes(sizes)){
+            return true;
+          }
+        }
+      })
     }
     return sortedProducts;
   };
@@ -40,8 +50,8 @@ class Products extends React.Component {
       <div>
         <div className="products-filter">
           <p>
-            {`${this.props.state.products.length} Product${
-              this.props.state.products.length > 1 ? "s" : ""
+            {`${products.length} Product${
+              products.length > 1 ? "s" : ""
             } found.`}{" "}
           </p>
           <OrderBy
