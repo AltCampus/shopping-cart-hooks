@@ -1,21 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import OrderBy from "./OrderBy";
 
-class Products extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedOrder: "",
-    };
-  }
-  handleOrderBy = (event) => {
-    this.setState({ selectedOrder: event.target.value });
+function Products(props) {
+  let [selectedOrder,setSelectedOrder] = useState("");
+
+  const handleOrderBy = (event) => {
+    setSelectedOrder(event.target.value);
   };
 
-  handleOrderProducts = (order, products) => {
+  // filter product by its prize
+  const handleOrderProducts = (order, products) => {
     let sortedProducts = [...products];
-    let size = this.props.state.size;
+    let size = props.state.size;
     if (order === "highest") {
       sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
     }
@@ -23,9 +20,9 @@ class Products extends React.Component {
       sortedProducts = sortedProducts.sort((a, b) => a.price - b.price);
     }
     if(size.length > 0){
-      sortedProducts = sortedProducts.filter((p) => {
+      sortedProducts = sortedProducts.filter(product => {
         for (const sizes of size) {
-          if (p.availableSizes.includes(sizes)){
+          if (product.availableSizes.includes(sizes)){
             return true;
           }
         }
@@ -33,43 +30,39 @@ class Products extends React.Component {
     }
     return sortedProducts;
   };
-
-  addItemToCart = (id) => {
-    this.props.dispatch({
-      type:"addItemToCart",
+  
+  // add product to cart
+  const addItemToCart = (id) => {
+    props.dispatch({
+      type:"add",
       id
     })
   }
 
-  render() {
-    let { selectedOrder } = this.state;
-    let products = this.handleOrderProducts(selectedOrder, this.props.state.products);
+  let products = handleOrderProducts(selectedOrder, props.state.products);
     
-
-    return (
-      <div>
-        <div className="products-filter">
-          <p>
-            {`${products.length} Product${
-              products.length > 1 ? "s" : ""
-            } found.`}{" "}
-          </p>
-          <OrderBy
-            selectedOrder={selectedOrder}
-            handleOrderBy={this.handleOrderBy}
-          />
-        </div>
-        <div className="flex wrap">
-          {products.map((product) => (
-            <Product key={product.id} {...product}  addItemToCart={this.addItemToCart}/>
-          ))}
-        </div>
+  return (
+    <div>
+      <div className="products-filter">
+        <p>
+          {`${products.length} Product${
+            products.length > 1 ? "s" : ""
+          } found.`}{" "}
+        </p>
+        <OrderBy
+          selectedOrder={selectedOrder}
+          handleOrderBy={handleOrderBy}
+        />
       </div>
-    );
-  }
+      <div className="flex wrap">
+        {products.map((product) => (
+          <Product key={product.id} {...product}  addItemToCart={addItemToCart}/>
+        ))}
+      </div>
+    </div>
+  );
 }
-
-
+  
 function Product(props) {
   return (
     <div className="product-item">
@@ -95,6 +88,6 @@ function mapStateToProps(state){
   return {
     state,
   }
-} 
+}; 
 
 export default connect(mapStateToProps)(Products);

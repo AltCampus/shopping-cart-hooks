@@ -1,6 +1,6 @@
 import Products from "./Products";
 
-function Main(props) {
+function Main() {
   return (
     <div className="main flex-80">
       <Products />

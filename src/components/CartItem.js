@@ -2,57 +2,62 @@ import React from 'react';
 import { connect } from "react-redux";
 
 function CartItem(props) {
+
+  //  Increment Product in cart
   function addQuantity(id) {
     props.dispatch({
-      type:"addItemToCart",
+      type:"increment",
       id
     })
-  }
+  };
 
+  //  Decrement Product in cart
   function removeQuantity(id) {
     props.dispatch({
-      type:"removeItemFromCart",
+      type:"decrement",
       id
     })
-  }
+  };
   
+  // Remove Product form cart
   function removeItemFromCart(id) {
     props.dispatch({
-      type:"removeItemFromCart",
+      type:"delete",
       id
     })
-  }
+  };
 
-  let cart = [... new Set(props.state.cart)]
+  let cart = [... new Set(props.state.cart)];
+
   return (
     <>
-    {
-      cart.map(product => (
-        <div key={product.id} className='cart-item'>
-          <img
-            src={`/static/products/${product.sku}_2.jpg`}
-            alt=''
-            width='80'
-          />
-          <div className='cart-item-details'>
-            <p className='cart-item-name'>
-              {product.title}
-            </p>
-            <p>{product.style}</p>
-            <p>print Quantity: {product.quantity}</p>
-          </div>
-          <div className='cart-price'>
-            <p className='cart-cross' onClick={() => removeItemFromCart(product.id)}>X</p>
-            <p className='price'>$ {product.price * product.quantity }</p>
-            <div>
-              <Increment addQuantity={addQuantity} id={product.id} />
-              <Decrement removeQuantity={removeQuantity} id={product.id} />
+      {
+        cart.map(product => (
+          <div key={product.id} className='cart-item'>
+            <img
+              src={`/static/products/${product.sku}_2.jpg`}
+              alt=''
+              width='80'
+            />
+            <div className='cart-item-details'>
+              <p className='cart-item-name'>
+                {product.title}
+              </p>
+              <p>{product.style}</p>
+              <p>print Quantity: {product.quantity}</p>
+            </div>
+            <div className='cart-price'>
+              <p className='cart-cross' onClick={() => removeItemFromCart(product.id)}>X</p>
+              <p className='price'>$ {product.price * product.quantity }</p>
+              <div>
+                <Increment addQuantity={addQuantity} id={product.id} />
+                <Decrement removeQuantity={removeQuantity} id={product.id} />
+              </div>
             </div>
           </div>
-        </div>
-      ))
-    }
-  </>
+        ))
+      };
+    </>
   );
 }
 
@@ -100,6 +105,6 @@ function mapStateToProps(state){
   return {
     state,
   }
-}
+};
 
 export default connect(mapStateToProps)(CartItem);
