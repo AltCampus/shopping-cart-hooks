@@ -9,6 +9,6 @@ function OrderBy(props) {
       </select>
     </div>
   );
-};
+}
   
 export default OrderBy;

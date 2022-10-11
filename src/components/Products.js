@@ -24,6 +24,8 @@ function Products(props) {
         for (const sizes of size) {
           if (product.availableSizes.includes(sizes)){
             return true;
+          } else {
+            return false;
           }
         }
       })
@@ -88,6 +90,6 @@ function mapStateToProps(state){
   return {
     state,
   }
-}; 
+}
 
 export default connect(mapStateToProps)(Products);

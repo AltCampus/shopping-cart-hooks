@@ -2,22 +2,21 @@ import React from 'react';
 import { connect } from "react-redux";
 
 function CartItem(props) {
-
   //  Increment Product in cart
   function addQuantity(id) {
     props.dispatch({
       type:"increment",
       id
     })
-  };
+  }
 
   //  Decrement Product in cart
   function removeQuantity(id) {
     props.dispatch({
       type:"decrement",
-      id
+      id,
     })
-  };
+  }
   
   // Remove Product form cart
   function removeItemFromCart(id) {
@@ -25,9 +24,9 @@ function CartItem(props) {
       type:"delete",
       id
     })
-  };
+  }
 
-  let cart = [... new Set(props.state.cart)];
+  let cart =[...new Set(props.state.cart)];
 
   return (
     <>
@@ -105,6 +104,6 @@ function mapStateToProps(state){
   return {
     state,
   }
-};
+}
 
 export default connect(mapStateToProps)(CartItem);

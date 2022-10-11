@@ -14,7 +14,7 @@ function Sidebar(props) {
       type:"addSize",
       size
     })
-  };
+  }
 
   return (
     <aside className="flex-20 sidebar">
@@ -25,12 +25,12 @@ function Sidebar(props) {
       </div>
     </aside>
   );
-};
+}
   
 function mapStateToProps(state){
   return {
     state,
   }
-};
+}
 
 export default connect(mapStateToProps)(Sidebar);

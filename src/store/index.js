@@ -15,21 +15,21 @@ function shoppingReducer( state = initialState, actions) {
     let product = state.products.find(product => product.id === actions.id);
 
     switch (actions.type) {
-        case "addSize":
+        case "addSize": {
             let isSize = state.size.findIndex(ele => ele === actions.size);
-            console.log(isSize)
             if(isSize >= 0){
                 state.size.filter(ele => {
                     if(ele === actions.size){
-                        return state.size.splice(actions.size,1);
+                        state.size.splice(actions.size,1);
+                        return state.size;
                     }
                 })
             } else {
                 state.size.push(actions.size);
             }
             return {...state};
-
-        case "add":
+        }
+        case "add": {
             if(isPresent >= 0){
                 state.cart.map((element) => {
                     if(element.id === actions.id){
@@ -38,13 +38,14 @@ function shoppingReducer( state = initialState, actions) {
                     }
                     return element;
                 })
-
             } else {
                 state.cart.push({...product,quantity:1});
             }
             return {...state};
+        }
+            
 
-        case "delete":
+        case "delete": {
             state.cart.filter((product,index) =>  {
                 if(product.id === actions.id){
                     state.cart.splice(index,1);
@@ -52,8 +53,8 @@ function shoppingReducer( state = initialState, actions) {
                 }
             })
             return {...state};
-
-        case "increment":
+        }
+        case "increment": {
             if(isPresent >= 0){
                 state.cart.map((element) => {
                     if(element.id === actions.id){
@@ -64,8 +65,8 @@ function shoppingReducer( state = initialState, actions) {
                 })
             }
             return {...state};
-
-        case "decrement":
+        }
+        case "decrement": {
             if(isPresent >= 0){
                 state.cart.map((element) => {
                     if(element.id === actions.id){
@@ -76,11 +77,12 @@ function shoppingReducer( state = initialState, actions) {
                 })
             }
             return {...state};
-
-        default:
+        }
+        default: {
             return state;
+        }
     }
-};
+}
 
 let store = createStore(shoppingReducer);
 
